@@ -19,6 +19,7 @@ import { SavingsResolver } from './savings.resolver';
             enums: String,
             oneofs: true,
             arrays: true,
+            longs: Number,
           },
         },
       },

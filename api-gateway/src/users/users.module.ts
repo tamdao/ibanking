@@ -19,6 +19,7 @@ import { IBANKING_USERS_PACKAGE_NAME } from 'src/grpc/users.interface';
             enums: String,
             oneofs: true,
             arrays: true,
+            longs: Number,
           },
         },
       },

@@ -13,6 +13,7 @@ export const grpcClientOptions: ClientOptions = {
       enums: String,
       oneofs: true,
       arrays: true,
+      longs: Number,
     },
   },
 };
