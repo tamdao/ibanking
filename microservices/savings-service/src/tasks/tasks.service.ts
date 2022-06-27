@@ -46,7 +46,7 @@ export class TasksService {
       });
 
       try {
-        const savingsTransactions = accounts.map(async (account) => {
+        accounts.map(async (account) => {
           const transactionLegs =
             await this.transactionLegEntityRepository.findBy({
               account: {
@@ -61,6 +61,12 @@ export class TasksService {
               : -transactionLeg.amount;
           }, account.statement.closingBalance);
 
+          const transaction = await this.transactionEntityRepository.create({
+            type: TransactionType.SAVING,
+          });
+
+          const transactionRecord = await queryRunner.manager.save(transaction);
+
           const transactionLegDebit =
             this.transactionLegEntityRepository.create({
               account: {
@@ -68,10 +74,9 @@ export class TasksService {
               },
               amount: amount * SAVING_PER_DAY,
               type: TransactionLegType.DEBIT,
+              transaction: transactionRecord,
             });
-          const transactionLegDebitRecord = await queryRunner.manager.save(
-            transactionLegDebit,
-          );
+          await queryRunner.manager.save(transactionLegDebit);
           const transactionLegCredit =
             this.transactionLegEntityRepository.create({
               account: {
@@ -79,22 +84,11 @@ export class TasksService {
               },
               amount: amount * SAVING_PER_DAY,
               type: TransactionLegType.CREDIT,
+              transaction: transactionRecord,
             });
-          const transactionLegCreditRecord = await queryRunner.manager.save(
-            transactionLegCredit,
-          );
-          await queryRunner.manager.save(savingsTransactions);
-          const transaction = this.transactionEntityRepository.create({
-            type: TransactionType.SAVING,
-            transactionLegs: [
-              transactionLegDebitRecord,
-              transactionLegCreditRecord,
-            ],
-          });
-          return transaction;
+          await queryRunner.manager.save(transactionLegCredit);
         });
 
-        await queryRunner.manager.save(savingsTransactions);
         await queryRunner.commitTransaction();
       } catch (err) {
         await queryRunner.rollbackTransaction();

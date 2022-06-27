@@ -34,7 +34,7 @@ export class SavingsResolver implements OnModuleInit {
         userId: createInput.userId,
       })
       .toPromise();
-    console.log('response', response);
+
     return {
       id: response.id,
       userId: response.userId,

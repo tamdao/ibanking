@@ -126,16 +126,21 @@ export class SavingsController implements SavingsServiceController {
     await queryRunner.connect();
     await queryRunner.startTransaction();
     try {
+      const transaction = this.transactionEntityRepository.create({
+        type: TransactionType.DEPOSIT,
+      });
+
+      const transactionRecord = await queryRunner.manager.save(transaction);
+
       const transactionLegDebit = this.transactionLegEntityRepository.create({
         account: {
           id: SYSTEM_ACCOUNT_DEPOSIT_ID,
         },
         amount: request.amount,
         type: TransactionLegType.DEBIT,
+        transaction: transactionRecord,
       });
-      const transactionLegDebitRecord = await queryRunner.manager.save(
-        transactionLegDebit,
-      );
+      await queryRunner.manager.save(transactionLegDebit);
 
       const transactionLegCredit = this.transactionLegEntityRepository.create({
         account: {
@@ -143,20 +148,9 @@ export class SavingsController implements SavingsServiceController {
         },
         amount: request.amount,
         type: TransactionLegType.CREDIT,
+        transaction: transactionRecord,
       });
-      const transactionLegCreditRecord = await queryRunner.manager.save(
-        transactionLegCredit,
-      );
-
-      const transaction = this.transactionEntityRepository.create({
-        type: TransactionType.DEPOSIT,
-        transactionLegs: [
-          transactionLegDebitRecord,
-          transactionLegCreditRecord,
-        ],
-      });
-
-      await queryRunner.manager.save(transaction);
+      await queryRunner.manager.save(transactionLegCredit);
 
       await queryRunner.commitTransaction();
 
@@ -184,24 +178,22 @@ export class SavingsController implements SavingsServiceController {
         throw new BadRequestException();
       }
 
+      const transaction = this.transactionEntityRepository.create({
+        type: TransactionType.WITHDRAWAL,
+      });
+
+      const transactionRecord = await queryRunner.manager.save(transaction);
+
       const transactionLegCredit = this.transactionLegEntityRepository.create({
         account: {
           id: request.id,
         },
         amount: request.amount,
         type: TransactionLegType.CREDIT,
+        transaction: transactionRecord,
       });
 
-      const transactionLegCreditRecord = await queryRunner.manager.save(
-        transactionLegCredit,
-      );
-
-      const transaction = this.transactionEntityRepository.create({
-        type: TransactionType.WITHDRAWAL,
-        transactionLegs: [transactionLegCreditRecord],
-      });
-
-      await queryRunner.manager.save(transaction);
+      await queryRunner.manager.save(transactionLegCredit);
 
       await queryRunner.commitTransaction();
 
