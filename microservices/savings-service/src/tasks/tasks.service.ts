@@ -56,9 +56,12 @@ export class TasksService {
             });
 
           const amount = transactionLegs.reduce((prevValue, transactionLeg) => {
-            return prevValue + transactionLeg.type === TransactionLegType.CREDIT
-              ? transactionLeg.amount
-              : -transactionLeg.amount;
+            return (
+              prevValue +
+              (transactionLeg.type === TransactionLegType.CREDIT
+                ? transactionLeg.amount
+                : -transactionLeg.amount)
+            );
           }, account.statement.closingBalance);
 
           const transaction = await this.transactionEntityRepository.create({
@@ -129,19 +132,23 @@ export class TasksService {
 
           const totalCredit = transactionLegs.reduce(
             (prevValue, transactionLeg) => {
-              return prevValue + transactionLeg.type ===
-                TransactionLegType.CREDIT
-                ? transactionLeg.amount
-                : 0;
+              return (
+                prevValue +
+                (transactionLeg.type === TransactionLegType.CREDIT
+                  ? transactionLeg.amount
+                  : 0)
+              );
             },
             account.statement.totalCredit,
           );
           const totalDebit = transactionLegs.reduce(
             (prevValue, transactionLeg) => {
-              return prevValue + transactionLeg.type ===
-                TransactionLegType.DEBIT
-                ? transactionLeg.amount
-                : 0;
+              return (
+                prevValue +
+                (transactionLeg.type === TransactionLegType.DEBIT
+                  ? transactionLeg.amount
+                  : 0)
+              );
             },
             account.statement.totalDebit,
           );

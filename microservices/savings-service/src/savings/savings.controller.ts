@@ -56,13 +56,15 @@ export class SavingsController implements SavingsServiceController {
       },
       createdAt: MoreThan(account.statement.date),
     });
-
     const amount = transactionLegs.reduce((prevValue, transactionLeg) => {
-      return prevValue + transactionLeg.type === TransactionLegType.CREDIT
-        ? transactionLeg.amount
-        : -transactionLeg.amount;
+      return (
+        prevValue +
+        (transactionLeg.type === TransactionLegType.CREDIT
+          ? transactionLeg.amount
+          : -transactionLeg.amount)
+      );
     }, account.statement.closingBalance);
-
+    console.log('amount', amount);
     return {
       id: account.id,
       userId: account.userId,
