@@ -1,0 +1,30 @@
+type SavingsAccount {
+  id: String!
+  userId: String!
+  amount: Int!
+}
+
+type Query {
+  savingsAccounts: [SavingsAccount]!
+  savingsAccount(id: String!): SavingsAccount
+}
+
+input DepositInput {
+  id: String!
+  amount: Int!
+}
+
+input WithdrawalInput {
+  id: String!
+  amount: Int!
+}
+
+input CreateInput {
+  userId: String!
+}
+
+type Mutation {
+  create(createInput: CreateInput!): SavingsAccount!
+  deposit(depositInput: DepositInput!): SavingsAccount!
+  withdrawal(withdrawalInput: WithdrawalInput!): SavingsAccount!
+}
