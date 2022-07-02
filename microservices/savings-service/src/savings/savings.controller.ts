@@ -142,6 +142,7 @@ export class SavingsController implements SavingsServiceController {
         type: TransactionLegType.DEBIT,
         transaction: transactionRecord,
       });
+
       await queryRunner.manager.save(transactionLegDebit);
 
       const transactionLegCredit = this.transactionLegEntityRepository.create({
@@ -186,9 +187,20 @@ export class SavingsController implements SavingsServiceController {
 
       const transactionRecord = await queryRunner.manager.save(transaction);
 
-      const transactionLegCredit = this.transactionLegEntityRepository.create({
+      const transactionLegDebit = this.transactionLegEntityRepository.create({
         account: {
           id: request.id,
+        },
+        amount: request.amount,
+        type: TransactionLegType.DEBIT,
+        transaction: transactionRecord,
+      });
+
+      await queryRunner.manager.save(transactionLegDebit);
+
+      const transactionLegCredit = this.transactionLegEntityRepository.create({
+        account: {
+          id: SYSTEM_ACCOUNT_DEPOSIT_ID,
         },
         amount: request.amount,
         type: TransactionLegType.CREDIT,

@@ -48,6 +48,7 @@ The data store in `transaction` table and `transaction_leg` table.
 | id | transctionId | accountId | amount | type | createdAt | updatedAt |
 | -- | ------------ | --------- | ------ | ---- | ---------- | ---------- |
 | <transaction_leg_id> | <transction_id> | <account_id> | 100 | Debit | ... | ..... |
+| <transaction_leg_id> | <transction_id> | 87c10eea-e9ac-4b67-90f0-60864f6b158b | 100 | Credit | ... | ..... |
 
 ### 3. Saving $20:
 
