@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository, MoreThan } from 'typeorm';
+import { DataSource, Repository, MoreThan, Not } from 'typeorm';
 import {
   Account as AccountEntity,
   AccountStatement as AccountStatementEntity,
@@ -117,6 +117,9 @@ export class TasksService {
         take: 100,
         relations: {
           statement: true,
+        },
+        where: {
+          userId: Not(null),
         },
       });
 
