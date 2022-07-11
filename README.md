@@ -67,4 +67,4 @@ The data store in `transaction` table and `transaction_leg` table.
 | <transaction_leg_id> | <transction_id> | bcc34e6d-899c-4243-9ffa-05c78119ed51 | 20 | Debit | ... | ..... |
 
 ## Documents
-- (Accounting Transaction)[https://martinfowler.com/eaaDev/AccountingTransaction.html]
+- [Accounting Transaction](https://martinfowler.com/eaaDev/AccountingTransaction.html)
