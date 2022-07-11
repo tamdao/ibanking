@@ -1,5 +1,8 @@
 ![iBanking System Design](/iBanking.jpg 'iBanking System Design')
 
+# NestJS GraphQL API + gRPC microservices
+This project is containing a GraphQL API with gRPC back-end microservices built using the NestJS framework.
+
 ## 1. Enviproment:
 
 - Install (Docker)[https://docs.docker.com/engine/install/]
@@ -62,3 +65,6 @@ The data store in `transaction` table and `transaction_leg` table.
 | -- | ------------ | --------- | ------ | ---- | ---------- | ---------- |
 | <transaction_leg_id> | <transction_id> | <account_id> | 20 | Credit | ... | ..... |
 | <transaction_leg_id> | <transction_id> | bcc34e6d-899c-4243-9ffa-05c78119ed51 | 20 | Debit | ... | ..... |
+
+## Documents
+- (Accounting Transaction)[https://martinfowler.com/eaaDev/AccountingTransaction.html]
