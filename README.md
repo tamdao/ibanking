@@ -5,8 +5,8 @@ This project is containing a GraphQL API with gRPC back-end microservices built 
 
 ## 1. Enviproment:
 
-- Install (Docker)[https://docs.docker.com/engine/install/]
-- Install (Yarn)[https://classic.yarnpkg.com/lang/en/docs/install/]
+- Install [Docker](https://docs.docker.com/engine/install/)
+- Install [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
 
 ## 2. How to run project:
 
